@@ -1,4 +1,7 @@
-import { combineReducers } from 'redux';
+// redux toolkit
+import { combineReducers } from '@reduxjs/toolkit';
+// react redux
+// import { combineReducers } from 'redux';
 
 import { userReducer } from './user/user.reducer';
 import { categoriesReducer } from './categories/category.reducer';

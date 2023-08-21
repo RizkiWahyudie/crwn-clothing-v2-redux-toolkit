@@ -1,34 +1,48 @@
-import { compose, createStore, applyMiddleware } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import logger from 'redux-logger';
+// react redux
+// import { compose, createStore, applyMiddleware } from 'redux';
+// redux-toolkit
+import { configureStore } from "@reduxjs/toolkit";
 
-import { rootReducer } from './root-reducer';
+// import { persistStore, persistReducer } from 'redux-persist';
+// import storage from 'redux-persist/lib/storage';
+import logger from "redux-logger";
 
-const middleWares = [process.env.NODE_ENV === 'development' && logger].filter(
+import { rootReducer } from "./root-reducer";
+
+const middleWares = [process.env.NODE_ENV === "development" && logger].filter(
   Boolean
 );
 
-const composeEnhancer =
-  (process.env.NODE_ENV !== 'production' &&
-    window &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
-  compose;
+// const composeEnhancer =
+//   (process.env.NODE_ENV !== 'production' &&
+//     window &&
+//     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+//   compose;
 
-const persistConfig = {
-  key: 'root',
-  storage,
-  blacklist: ['user'],
-};
+// const persistConfig = {
+//   key: 'root',
+//   storage,
+//   blacklist: ['user'],
+// };
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+// const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const composedEnhancers = composeEnhancer(applyMiddleware(...middleWares));
+// const composedEnhancers = composeEnhancer(applyMiddleware(...middleWares));
 
-export const store = createStore(
-  persistedReducer,
-  undefined,
-  composedEnhancers
-);
+// redux toolkit
+export const store = configureStore({
+  reducer: rootReducer,
+  // jika middleware tidak di setting maka redux toolkit punya 3 default middleware salah satunya thunk
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(middleWares),
+});
+// react redux
+// export const store = createStore(
+//   persistedReducer,
+//   undefined,
+//   composedEnhancers
+// );
 
-export const persistor = persistStore(store);
+// export const persistor = persistStore(store);
