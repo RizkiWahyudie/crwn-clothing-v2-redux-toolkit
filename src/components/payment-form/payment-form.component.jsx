@@ -20,13 +20,10 @@ const PaymentForm = () => {
 
   const paymentHandler = async (e) => {
     e.preventDefault();
-
     if (!stripe || !elements) {
       return;
     }
-
     setIsProcessingPayment(true);
-
     const response = await fetch("/.netlify/functions/create-payment-intent", {
       method: "post",
       headers: {
